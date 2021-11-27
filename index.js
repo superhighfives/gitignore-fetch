@@ -20,7 +20,8 @@ async function gatherResponse(response) {
   const { headers } = response
   const contentType = headers.get("content-type") || ""
   if (contentType.includes("application/json")) {
-    return JSON.stringify(await response.json())
+    const json = await response.json()
+    return JSON.stringify(json.filter(file => file.path.endsWith(".gitignore")))
   }
   else {
     return response.text()
@@ -44,8 +45,15 @@ function getFileUrl (path) {
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
         "User-Agent": "gitignore-fetch",
-        "Authorization": `token ${OAUTH_TOKEN}`
-      }
+        "Authorization": `token ${OAUTH_TOKEN}`,
+        "Cache-Control": "max-age=86400"
+      },
+      cf: {
+        // Always cache this fetch regardless of content type
+        // for a max of 5 seconds before revalidating the resource
+        cacheTtl: 86400,
+        cacheEverything: true
+      },
     }
     const response = await fetch(url, init)
     const results = await gatherResponse(response)
