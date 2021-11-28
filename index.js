@@ -1,9 +1,3 @@
-/**
- * Example someHost is set up to take in a JSON request
- * Replace url with the host you wish to send requests to
- * @param {string} someHost the host to send the request to
- * @param {string} url the URL to send the request to
- */
 const remoteHost = "https://api.github.com/"
 const remoteUrl = remoteHost + "repos/github/gitignore/contents"
 
@@ -11,11 +5,6 @@ const contentHost = "https://raw.githubusercontent.com/"
 const contentUrl = contentHost + "github/gitignore/master"
 
 
-/**
- * gatherResponse awaits and returns a response body as a string.
- * Use await gatherResponse(..) in an async function to get the response body
- * @param {Response} response
- */
 async function gatherResponse(response) {
   const { headers } = response
   const contentType = headers.get("content-type") || ""
@@ -49,8 +38,6 @@ function getFileUrl (path) {
         "Cache-Control": "max-age=86400"
       },
       cf: {
-        // Always cache this fetch regardless of content type
-        // for a max of 5 seconds before revalidating the resource
         cacheTtl: 86400,
         cacheEverything: true
       },
