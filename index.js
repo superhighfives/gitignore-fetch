@@ -4,7 +4,6 @@ const remoteUrl = remoteHost + "repos/github/gitignore/contents"
 const contentHost = "https://raw.githubusercontent.com/"
 const contentUrl = contentHost + "github/gitignore/master"
 
-
 async function gatherResponse(response) {
   const { headers } = response
   const contentType = headers.get("content-type") || ""
